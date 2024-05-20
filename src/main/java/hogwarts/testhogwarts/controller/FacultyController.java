@@ -14,12 +14,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/faculty")
 public class FacultyController {
-
     private final FacultyService facultyService;
+
     public FacultyController(FacultyService facultyService) {
         this.facultyService = facultyService;
     }
-
 
     @GetMapping
     public Faculty get(@RequestParam long id) {
@@ -43,7 +42,6 @@ public class FacultyController {
         return facultyService.deleteFaculty(id);
     }
 
-
     @GetMapping("/byColorAndName")
     public Collection<Faculty> findFacultiesByColor(@RequestParam(required = false)String color, @RequestParam(required = false)String name) {
 
@@ -52,7 +50,6 @@ public class FacultyController {
         }
         return facultyService.findFacultiesByColorAndName(color, name);
     }
-
     @GetMapping("students")
     public List<Student> getStudentFaculty(@RequestParam long facultyId) {
         return facultyService.getFaculty(facultyId).getStudents();
