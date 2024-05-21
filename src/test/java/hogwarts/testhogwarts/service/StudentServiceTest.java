@@ -2,11 +2,17 @@ package hogwarts.testhogwarts.service;
 import hogwarts.testhogwarts.exception.RecordNotFoundException;
 import hogwarts.testhogwarts.model.Student;
 import hogwarts.testhogwarts.repository.StudentRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
+
+import javax.sql.DataSource;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.Optional;
@@ -20,10 +26,14 @@ class StudentServiceTest {
     private StudentRepository studentRepository;
     private StudentService studentService;
 
+
+
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         studentService = new StudentService(studentRepository);
     }
+
+
 
     @Test
     void shouldGetStudent() {
