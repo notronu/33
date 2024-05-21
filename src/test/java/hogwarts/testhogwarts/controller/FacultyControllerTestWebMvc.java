@@ -7,6 +7,7 @@ import hogwarts.testhogwarts.repository.FacultyRepository;
 import hogwarts.testhogwarts.service.AvatarService;
 import hogwarts.testhogwarts.service.FacultyService;
 import hogwarts.testhogwarts.service.StudentService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ class FacultyControllerTestWebMvc {
 
     @InjectMocks
     FacultyController facultyController;
+
+
 
     @Test
     void testGet() throws Exception {

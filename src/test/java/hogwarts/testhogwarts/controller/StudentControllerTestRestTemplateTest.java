@@ -1,6 +1,9 @@
 package hogwarts.testhogwarts.controller;
 
 import hogwarts.testhogwarts.model.Student;
+import org.h2.util.TempFileDeleter;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +11,10 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
+
+import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,6 +31,14 @@ class StudentControllerTestRestTemplateTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+    @Autowired
+    DataSource dataSource;
+
+    @BeforeEach
+    void tearDown() {
+        JdbcTemplate jdbc = new JdbcTemplate(dataSource);
+        JdbcTestUtils.deleteFromTables(jdbc, "STUDENT");
+    }
 
     @Test
     public void getStudentInfoTest() throws Exception {
