@@ -1,6 +1,12 @@
 package hogwarts.testhogwarts.controller;
 import hogwarts.testhogwarts.model.Faculty;
 import hogwarts.testhogwarts.model.Student;
+import hogwarts.testhogwarts.service.FacultyService;
+import org.aspectj.lang.annotation.Before;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,23 +15,39 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.context.event.annotation.BeforeTestClass;
+import org.springframework.test.context.event.annotation.BeforeTestMethod;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
 
+import javax.sql.DataSource;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class FacultyControllerTestRestTemplate {
+class FacultyControllerTestRestTemplateTest {
 
     @LocalServerPort
-    int port;
+    private int port;
 
     @Autowired
-    FacultyController facultyController;
+    private FacultyController facultyController;
 
     @Autowired
-    TestRestTemplate testRestTemplate;
+    private TestRestTemplate testRestTemplate;
+
+    @Autowired
+    DataSource dataSource;
+
+    @BeforeEach
+    void setUp() {
+        JdbcTemplate jdbc = new JdbcTemplate(dataSource);
+        JdbcTestUtils.deleteFromTables(jdbc, "FACULTY");
+    }
+
 
     @Test
     void testGetFaculty() throws Exception {
@@ -73,7 +95,7 @@ class FacultyControllerTestRestTemplate {
     }
 
     @Test
-    void testFilter() {
+    void testFilter()  {
         var f1 = testRestTemplate.postForEntity("/faculty", new Faculty(null, "test_name1", "test_color1"), Faculty.class).getBody();
         var f2 = testRestTemplate.postForEntity("/faculty", new Faculty(null, "test_name2", "test_color2"), Faculty.class).getBody();
         var f3 = testRestTemplate.postForEntity("/faculty", new Faculty(null, "test_name3", "test_color3"), Faculty.class).getBody();
@@ -91,7 +113,7 @@ class FacultyControllerTestRestTemplate {
 
         Student newStudent = new Student(null, "s1", 10);
         Student newStudent2 = new Student(null, "s2", 20);
-        newStudent.setFaculty(f);
+        newStudent.setFaculty(f1);
         newStudent2.setFaculty(f1);
 
         var s1 = testRestTemplate.postForEntity("/student", newStudent, Student.class).getBody();
