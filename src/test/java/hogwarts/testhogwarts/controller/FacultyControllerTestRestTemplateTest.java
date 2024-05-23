@@ -45,7 +45,7 @@ class FacultyControllerTestRestTemplateTest {
     @BeforeEach
     void setUp() {
         JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-        JdbcTestUtils.deleteFromTables(jdbc, "FACULTY");
+        JdbcTestUtils.deleteFromTables(jdbc, "STUDENT", "FACULTY");
     }
 
 
