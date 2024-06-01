@@ -8,7 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.jdbc.JdbcTestUtils;
 
+import javax.sql.DataSource;
 import java.util.Optional;
 
 
@@ -23,8 +27,9 @@ class FacultyServiceTest {
     private FacultyRepository facultyRepository;
     private FacultyService facultyService;
 
+
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         facultyService = new FacultyService(facultyRepository);
     }
 
@@ -49,7 +54,6 @@ class FacultyServiceTest {
         long id = 1L;
         when(facultyRepository.findById(id)).thenReturn(java.util.Optional.empty());
 
-        // when & then
         assertThatThrownBy(() -> facultyService.getFaculty(id)).isInstanceOf(RecordNotFoundException.class);
     }
 

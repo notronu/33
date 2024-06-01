@@ -5,6 +5,7 @@ import hogwarts.testhogwarts.model.Student;
 import hogwarts.testhogwarts.repository.AvatarRepository;
 import hogwarts.testhogwarts.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+import java.util.Collection;
 
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -80,5 +81,9 @@ public class AvatarService {
 
     private String getExtensions(String fileName) {
         return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+    public Collection<Avatar> getPage(int pageNumber, int pageSize) {
+        return avatarRepository.findAll(PageRequest.of(pageNumber, pageSize)).getContent();
     }
 }

@@ -34,17 +34,35 @@ public class StudentService {
                 })
                 .orElse(false);
     }
+
     public Student editStudent(Student student) {
         return studentRepository.findById(student.getId())
                 .map(entity -> studentRepository.save(student))
                 .orElse(null);
     }
+
     public Collection<Student> getByAgeBetween(int min, int max) {
         return studentRepository.findAllByAgeBetween(min, max);
     }
 
-    public  Collection<Student> getAll() {
+    public Collection<Student> getAll() {
         return studentRepository.findAll();
     }
-        }
+
+    public Collection<Student> getByAgeStudents(int age) {
+        return studentRepository.findByAge(age);
+    }
+
+    public int getStudentCount() {
+        return studentRepository.countStudents();
+    }
+
+    public double getAvgAge() {
+        return studentRepository.avgAge();
+    }
+
+    public Collection<Student> getLastFive() {
+        return studentRepository.getLastFive();
+    }
+}
 
