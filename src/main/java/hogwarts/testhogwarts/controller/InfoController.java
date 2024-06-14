@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.stream.Stream;
+
 @RestController
 @RequestMapping("/info")
 public class InfoController {
@@ -21,5 +23,14 @@ public class InfoController {
     public int port() {
         logger.error("Getting port {}", port);
         return port;
+    }
+
+    @GetMapping("/sum")
+    public int sum() {
+        var start = System.currentTimeMillis();
+        int sum = Stream.iterate(1, a -> a +1) .limit(1_000_000) .reduce(0, (a, b) -> a + b );
+        var end = System.currentTimeMillis() - start;
+        logger.info("Elapsed time: {} ms",end);
+        return sum;
     }
 }
