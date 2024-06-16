@@ -37,6 +37,7 @@ public class InfoController {
         return sum;
     }
 
+
     @GetMapping("/sum2")
     public int sum2() {
         var sw = StopWatch.createStarted();
