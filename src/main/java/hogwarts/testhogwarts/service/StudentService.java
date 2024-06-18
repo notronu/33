@@ -122,8 +122,8 @@ public class StudentService {
     public void printSync() {
         var students = studentRepository.findAll();
 
-        System.out.print(students.get(0));
-        System.out.print(students.get(1));
+        print(students.get(0));
+        print(students.get(1));
 
         new Thread(() -> {
            /*
@@ -133,13 +133,13 @@ public class StudentService {
                 throw new RuntimeException(e);
             }
             */
-            System.out.print(students.get(2));
-            System.out.print(students.get(3));
+            print(students.get(2));
+            print(students.get(3));
         }).start();
 
         new Thread(() -> {
-            System.out.print(students.get(4));
-            System.out.print(students.get(5));
+            print(students.get(4));
+            print(students.get(5));
         }).start();
     }
 
